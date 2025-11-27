@@ -15,22 +15,6 @@ const addEventOnElem = function (elem, type, callback) {
     elem.addEventListener(type, callback);
   }
 }
-// Select all "View Details" buttons
-document.querySelectorAll('.view-details-btn').forEach(function(btn) {
-  btn.addEventListener('click', function(event) {
-      event.preventDefault(); // Prevent default link behavior
-
-      // Find the closest image container
-      const imageContainer = this.closest('.img-zoomable');
-
-      // Toggle a CSS class to zoom the image to the whole page
-      imageContainer.classList.toggle('zoomed');
-  });
-});
-
-
-
-
 /**
  * navbar toggle
  */
@@ -46,6 +30,89 @@ addEventOnElem(navTogglers, "click", toggleNavbar);
 const closeNavbar = function () { navbar.classList.remove("active"); }
 
 addEventOnElem(navLinks, "click", closeNavbar);
+
+
+/**
+ * theme toggle
+ */
+
+const themeToggles = document.querySelectorAll("[data-theme-toggle]");
+const THEME_KEY = "artovex-theme";
+
+const setTheme = (theme) => {
+  document.body.setAttribute("data-theme", theme);
+  localStorage.setItem(THEME_KEY, theme);
+};
+
+const storedTheme = localStorage.getItem(THEME_KEY);
+if (storedTheme) {
+  setTheme(storedTheme);
+} else {
+  setTheme("dark");
+}
+
+themeToggles.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const nextTheme = document.body.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+  });
+});
+
+
+/**
+ * Lightbox preview
+ */
+
+const lightbox = document.querySelector("[data-lightbox]");
+const lightboxImg = document.querySelector("[data-lightbox-img]");
+const lightboxCaption = document.querySelector("[data-lightbox-caption]");
+const lightboxClose = document.querySelector("[data-lightbox-close]");
+
+const openLightbox = (src, caption = "") => {
+  if (!lightbox) return;
+  lightboxImg.src = src;
+  lightboxImg.alt = caption || "Artwork preview";
+  lightboxCaption.textContent = caption;
+  lightbox.classList.add("active");
+  lightbox.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+};
+
+const closeLightbox = () => {
+  if (!lightbox) return;
+  lightbox.classList.remove("active");
+  lightbox.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+};
+
+if (lightboxClose) {
+  lightboxClose.addEventListener("click", closeLightbox);
+}
+
+if (lightbox) {
+  lightbox.addEventListener("click", (event) => {
+    if (event.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && lightbox.classList.contains("active")) {
+      closeLightbox();
+    }
+  });
+}
+
+document.addEventListener("click", (event) => {
+  const trigger = event.target.closest("[data-enlarge]");
+  if (!trigger) return;
+  event.preventDefault();
+  const src = trigger.getAttribute("data-enlarge");
+  const caption = (trigger.getAttribute("data-caption") || "").replace(/&quot;/g, '"');
+  if (src) {
+    openLightbox(src, caption);
+  }
+});
 
 
 
@@ -97,20 +164,26 @@ async function loadArtworks() {
     }
 
     artworks.forEach((artwork) => {
+      const title = artwork.title || "Untitled Artwork";
+      const caption = artwork.description || title;
+      const safeCaption = String(caption).replace(/"/g, "&quot;");
+
       const li = document.createElement("li");
       li.className = "scrollbar-item";
 
       li.innerHTML = `
         <div class="gallery-card">
-          <figure class="card-banner img-holder" style="--width: 736; --height: 1040;">
+          <figure class="card-banner img-holder" style="--width: 736; --height: 1040;"
+            data-enlarge="${artwork.fileUrl}"
+            data-caption="${safeCaption}">
             <img src="${artwork.fileUrl}"
                  loading="lazy"
-                 alt="${artwork.title || 'Artwork'}"
+                 alt="${title}"
                  class="img-cover">
           </figure>
           <div class="card-content">
             <h3 class="h3">
-              <a href="#" class="card-title">${artwork.title || "Untitled Artwork"}</a>
+              <a href="#" class="card-title">${title}</a>
             </h3>
             <p class="card-text">
               ${artwork.description || "No description provided."}

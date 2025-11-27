@@ -2,19 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Artovex - User Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Catamaran:wght@600;700;800;900&family=Rubik:wght@400;500;800&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
-<body class="bg-dark">
+<body class="bg-dark auth-page">
 
   <main>
    <section class="auth-wrapper">
   <div class="auth-card">
-    <h2 style="text-align:center; margin-bottom: 20px;">Login to Artovex</h2>
+        <a class="auth-logo" href="/">
+          <ion-icon name="brush-sharp" aria-hidden="true"></ion-icon>
+          <span>Artovex</span>
+        </a>
 
-    <form action="/login" method="post">
-      <input type="email" name="email" class="auth-input" placeholder="Email" required>
-      <input type="password" name="password" class="auth-input" placeholder="Password" required>
+        <h1 class="auth-title">Login to Artovex</h1>
+        <p class="auth-subtitle">Access your dashboard to add new artworks.</p>
+
+        <form action="/login" method="post" class="auth-form">
+          <label class="auth-label" for="login-email">Email</label>
+          <input id="login-email" type="email" name="email" class="auth-input" placeholder="john@artovex.com" required>
+
+          <label class="auth-label" for="login-password">Password</label>
+          <input id="login-password" type="password" name="password" class="auth-input" placeholder="••••••••" required>
 
       <button type="submit" class="btn btn-primary auth-btn">Login</button>
     </form>
@@ -24,11 +39,16 @@
       <a href="/signup">Create one</a>
     </p>
     <p class="auth-footer">
-    Back to <a href="/">ARTOVEX GALLERY</a>
+          Back to <a href="/">Artovex Gallery</a>
     </p>
   </div>
 </section>
   </main>
+
+  <script type="module"
+    src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule
+    src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 </body>
 </html>

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Artovex Dashboard - Upload Artworks</title>
 
   <link rel="stylesheet" href="./assets/css/style.css" />
@@ -14,62 +15,74 @@
     rel="stylesheet">
 </head>
 
-<body class="bg-dark">
+<body class="bg-dark dashboard-body">
 
   <main>
-    <section class="section" style="min-height: 100vh;">
-      <div class="container">
+    <section class="section dashboard-section">
+      <div class="container dashboard-container">
 
         <!-- Top bar -->
-        <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.5rem;">
-          <div>
-            <h1 class="h2 section-title" style="color:#fff;">Artovex Dashboard</h1>
+        <header class="dashboard-header">
+          <div class="dashboard-heading">
+            <p class="section-subtitle">Creator tools</p>
+            <h1 class="h2 section-title">Artovex Dashboard</h1>
             <p class="section-text">
-              Upload new artworks and manage the gallery content.
+              Upload new artworks, add descriptions, and keep the public gallery fresh.
             </p>
           </div>
           <a href="/logout" class="btn btn-secondary">Logout</a>
         </header>
 
+        <div class="dashboard-content">
         <!-- Upload Form -->
-        <div style="background:#ffffff; padding:24px; border-radius:16px; margin-bottom: 2rem;">
-          <h2 class="h3" style="margin-bottom: 1rem;">Upload New Artwork</h2>
-
-          <form id="upload-form" enctype="multipart/form-data">
-            <div class="input-wrapper" style="margin-bottom: 12px;">
-              <label for="title" class="h4" style="margin-bottom:6px; display:block;">Title</label>
-              <input type="text" id="title" name="title" class="contact-input" placeholder="Artwork title" required />
+          <div class="dashboard-card">
+            <div class="dashboard-card__header">
+              <div>
+                <h2 class="h3">Upload new artwork</h2>
+                <p class="card-helper">High-resolution JPG or PNG recommended.</p>
+            </div>
             </div>
 
-            <div class="input-wrapper" style="margin-bottom: 12px;">
-              <label for="description" class="h4" style="margin-bottom:6px; display:block;">Description</label>
-              <textarea id="description" name="description" class="contact-input" rows="4" placeholder="Short description"></textarea>
-            </div>
+            <form id="upload-form" class="dashboard-form" enctype="multipart/form-data">
+              <label for="title" class="dashboard-label">Title</label>
+              <input type="text" id="title" name="title" class="dashboard-input" placeholder="Artwork title" required />
 
-            <div class="input-wrapper" style="margin-bottom: 12px;">
-              <label for="category" class="h4" style="margin-bottom:6px; display:block;">Category (optional)</label>
-              <input type="text" id="category" name="category" class="contact-input" placeholder="Painting, Digital, Photography, etc." />
-            </div>
+              <label for="description" class="dashboard-label">Description</label>
+              <textarea id="description" name="description" class="dashboard-input" rows="4"
+                placeholder="Short description (max 240 characters)"></textarea>
 
-            <div class="input-wrapper" style="margin-bottom: 12px;">
-              <label for="image" class="h4" style="margin-bottom:6px; display:block;">Artwork Image</label>
+              <label for="category" class="dashboard-label">Category (optional)</label>
+              <input type="text" id="category" name="category" class="dashboard-input"
+                placeholder="Painting, Digital, Photography, etc." />
+
+              <label for="image" class="dashboard-label file-label">
+                <span>Artwork image</span>
               <input type="file" id="image" name="image" accept="image/*" required />
-            </div>
+                <span class="file-hint">Drag & drop or click to choose a file</span>
+              </label>
 
-            <button type="submit" class="btn btn-primary" style="margin-top: 8px;">
+              <button type="submit" class="btn btn-primary dashboard-submit">
               Upload Artwork
             </button>
 
-            <p id="upload-status" class="section-text" style="margin-top: 0.75rem;"></p>
+              <p id="upload-status" class="section-text upload-status" role="status" aria-live="polite"></p>
           </form>
         </div>
 
         <!-- Existing artworks (admin view) -->
-        <div style="background:#ffffff; padding:24px; border-radius:16px;">
-          <h2 class="h3" style="margin-bottom: 1rem;">Current Gallery Artworks</h2>
-          <div id="artwork-list"
-               style="display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:16px;">
+          <div class="dashboard-card">
+            <div class="dashboard-card__header">
+              <div>
+                <h2 class="h3">Current gallery artworks</h2>
+                <p class="card-helper">Latest uploads appear first.</p>
+              </div>
+              <button type="button" class="btn-link refresh-btn" id="refresh-artwork">
+                Refresh
+              </button>
+            </div>
+            <div id="artwork-list" class="dashboard-grid" aria-live="polite">
             <!-- Filled by JS -->
+            </div>
           </div>
         </div>
 
@@ -91,31 +104,27 @@
         container.innerHTML = "";
 
         if (!artworks.length) {
-          container.innerHTML = "<p>No artworks yet.</p>";
+          container.innerHTML = "<p class='card-helper'>No artworks yet.</p>";
           return;
         }
 
-        artworks.forEach((art) => {
-          const div = document.createElement("div");
-          div.style.border = "1px solid #eee";
-          div.style.borderRadius = "12px";
-          div.style.overflow = "hidden";
-          div.style.background = "#fafafa";
+        artworks.slice().reverse().forEach((art) => {
+          const div = document.createElement("article");
+          div.className = "dashboard-card dashboard-card--compact";
 
           div.innerHTML = `
-            <div style="width:100%; height:180px; overflow:hidden;">
-              <img src="${art.fileUrl}" alt="${art.title || "Artwork"}"
-                   style="width:100%; height:100%; object-fit:cover;" />
-            </div>
-            <div style="padding:8px 10px 12px;">
-              <h3 style="font-size:1rem; font-weight:600; margin-bottom:4px;">
+            <figure class="dashboard-thumb">
+              <img src="${art.fileUrl}" alt="${art.title || "Artwork"}" loading="lazy" />
+            </figure>
+            <div class="dashboard-card__body">
+              <h3 class="dashboard-card__title">
                 ${art.title || "Untitled"}
               </h3>
-              <p style="font-size:0.85rem; max-height:60px; overflow:hidden;">
+              <p class="dashboard-card__description">
                 ${art.description || ""}
               </p>
-              <p style="font-size:0.75rem; opacity:0.7; margin-top:4px;">
-                ${art.category || ""}
+              <p class="dashboard-card__meta">
+                ${art.category || "Uncategorized"}
               </p>
             </div>
           `;
@@ -124,13 +133,14 @@
         });
       } catch (err) {
         console.error(err);
-        container.innerHTML = "<p style='color:red;'>Failed to load artworks.</p>";
+        container.innerHTML = "<p class='error-text'>Failed to load artworks.</p>";
       }
     }
 
     // Handle upload form submit
     const uploadForm = document.getElementById("upload-form");
     const uploadStatus = document.getElementById("upload-status");
+    const refreshBtn = document.getElementById("refresh-artwork");
 
     if (uploadForm) {
       uploadForm.addEventListener("submit", async (e) => {
@@ -160,6 +170,13 @@
           console.error(err);
           uploadStatus.textContent = "Error uploading artwork.";
         }
+      });
+    }
+
+    if (refreshBtn) {
+      refreshBtn.addEventListener("click", () => {
+        refreshBtn.setAttribute("aria-busy", "true");
+        loadArtworksAdmin().finally(() => refreshBtn.removeAttribute("aria-busy"));
       });
     }
 

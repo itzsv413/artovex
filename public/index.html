@@ -38,57 +38,53 @@
 
 </head>
 
-<body id="top">
+<body id="top" data-theme="dark">
 
   <!-- 
     - #HEADER: This section contains the header of the webpage, including the logo, navigation, and menu toggle button.
   -->
 
   <header class="header" data-header>
-    <div class="container">
-
-      <!-- Logo -->
-      <a href="#" class="logo">
-      <ion-icon name="brush-sharp" aria-hidden="true"></ion-icon>
-      <span class="span">Artovex</span>
+    <div class="container header-container">
+      <a href="#home" class="logo">
+        <ion-icon name="brush-sharp" aria-hidden="true"></ion-icon>
+        <span class="span">Artovex</span>
       </a>
 
-
-      <!-- Navigation Menu -->
       <nav class="navbar" data-navbar>
-        <!-- Close Menu Button -->
         <button class="nav-close-btn" aria-label="close menu" data-nav-toggler>
           <ion-icon name="close-sharp" aria-hidden="true"></ion-icon>
         </button>
 
-        <!-- Navbar Links -->
         <ul class="navbar-list">
-          <li>
-            <a href="#home" class="navbar-link active" data-nav-link>Home</a>
-          </li>
-          <li>
-            <a href="#gallery" class="navbar-link" data-nav-link>Gallery</a>
-          </li>
-          <li>
-            <a href="#about" class="navbar-link" data-nav-link>About Us</a>
-          </li>
-          <li>
-          <a href="/login" class="navbar-link">Upload image</a>
-          </li>
-
- 
+          <li><a href="#home" class="navbar-link active" data-nav-link>Home</a></li>
+          <li><a href="#gallery" class="navbar-link" data-nav-link>Gallery</a></li>
+          <li><a href="#curation" class="navbar-link" data-nav-link>Curations</a></li>
+          <li><a href="#stories" class="navbar-link" data-nav-link>Stories</a></li>
+          <li><a href="#contact" class="navbar-link" data-nav-link>Contact</a></li>
         </ul>
+
+        <div class="navbar-cta">
+          <button class="theme-toggle" aria-label="Toggle color theme" data-theme-toggle>
+            <ion-icon name="sunny-outline" class="icon-sun"></ion-icon>
+            <ion-icon name="moon-outline" class="icon-moon"></ion-icon>
+          </button>
+          <a href="/login" class="btn btn-primary btn-small">Upload</a>
+        </div>
       </nav>
 
-
-
-      <!-- Open Menu Button -->
-      <button class="nav-open-btn" aria-label="open menu" data-nav-toggler>
-        <span class="line"></span>
-        <span class="line"></span>
-        <span class="line"></span>
-      </button>
-
+      <div class="header-actions">
+        <button class="theme-toggle desktop-only" aria-label="Toggle color theme" data-theme-toggle>
+          <ion-icon name="sunny-outline" class="icon-sun"></ion-icon>
+          <ion-icon name="moon-outline" class="icon-moon"></ion-icon>
+        </button>
+        <a href="/login" class="btn btn-primary btn-small desktop-only">Upload</a>
+        <button class="nav-open-btn" aria-label="open menu" data-nav-toggler>
+          <span class="line"></span>
+          <span class="line"></span>
+          <span class="line"></span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -99,21 +95,40 @@
         - #HERO: This section is the hero section with a background image and introductory text.
       -->
 
-      <section class="section hero bg-dark has-after has-bg-image" id="home" aria-label="hero" data-section
-        style="background-image: url('assets/images/11.jpg')">
-        <div class="container">
+      <section class="section hero" id="home" aria-label="hero" data-section>
+        <div class="container hero-grid">
           <div class="hero-content">
             <p class="hero-subtitle">
-                <strong class="strong">Artovex</strong> Gallery
-              </p>
-              <h1 class="h1 hero-title">Where Digital Art Comes Alive</h1>
-              <p class="section-text">
-                Explore a modern space where creators showcase unique artworks, photography, and digital creations.
-              </p>
+              <strong class="strong">Artovex</strong> Gallery
+            </p>
+            <h1 class="h1 hero-title">Where Digital Art Comes Alive</h1>
+            <p class="section-text">
+              Explore a modern space where creators showcase unique artworks, photography, and digital creations. Curate
+              your collections, tell your story, and reach enthusiasts across the globe.
+            </p>
 
+            <div class="hero-actions">
+              <a href="#gallery" class="btn btn-primary">Explore Gallery</a>
+              <a href="#curation" class="btn btn-secondary">Meet the Curators</a>
+            </div>
+          </div>
 
-
-            <a href="#gallery" class="btn btn-primary">Explore Gallery</a>
+          <div class="hero-showcase">
+            <div class="hero-card" data-enlarge="assets/images/11.jpg" data-caption="Chromatic Horizons – Featured drop">
+              <img src="assets/images/11.jpg" alt="Gallery highlight" class="img-cover">
+              <div class="hero-card__content">
+                <p class="hero-card__eyebrow">Featured drop</p>
+                <h3>Chromatic Horizons</h3>
+                <p>Immersive landscapes rendered in luminous gradients.</p>
+              </div>
+            </div>
+            <div class="hero-card mini" data-enlarge="assets/images/photo6.jpg" data-caption="Artist spotlight – Senka, digital artist">
+              <img src="assets/images/photo6.jpg" alt="Artwork preview" class="img-cover">
+              <div class="hero-card__content">
+                <p>“Artovex gave my work a global audience.”</p>
+                <span>— Senka, Digital artist</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -124,11 +139,21 @@
 
       <section class="section gallery" id="gallery" aria-label="gallery">
         <div class="container">
-          <p class="section-subtitle">Art Gallery</p>
-          <h2 class="h2 section-title text-center">Discover Stunning Artworks</h2>
-          <ul class="gallery-list has-scrollbar" id="gallery-list">
-  <!-- Artovex gallery items will be injected here by JS -->
-        </ul>
+          <div class="section-heading section-heading--row">
+            <div>
+              <p class="section-subtitle">Art Gallery</p>
+              <h2 class="h2 section-title">Discover stunning artworks</h2>
+            </div>
+            <div class="gallery-filter">
+              <button class="filter-chip is-active">All</button>
+              <button class="filter-chip">Digital</button>
+              <button class="filter-chip">Photography</button>
+              <button class="filter-chip">Illustration</button>
+            </div>
+          </div>
+          <ul class="gallery-list" id="gallery-list">
+            <!-- Artovex gallery items injected by JS -->
+          </ul>
         </div>
       </section>
 
@@ -136,21 +161,118 @@
         - #ABOUT: This section provides information about the virtual art gallery.
       -->
 
-      <section class="section about" id="about" aria-label="about">
+      <section class="section curation" id="curation" aria-label="curation">
         <div class="container">
-          <div class="about-content">
-            <p class="section-subtitle">About Artovex</p>
-            <h2 class="h2 section-title">Welcome to Artovex Gallery</h2>
+          <div class="section-heading section-heading--row">
+            <div>
+              <p class="section-subtitle">Curated sets</p>
+              <h2 class="h2 section-title">Immersive collections</h2>
+            </div>
+            <a href="/dashboard" class="btn-link has-before">Submit your drop</a>
+          </div>
 
+          <div class="curation-grid">
+            <article class="curation-card">
+              <div>
+                <p class="card-eyebrow">Weekly Spotlight</p>
+                <h3>Neon Botanics</h3>
+              </div>
+              <p>Analog florals reimagined with glowing gradients and cinematic lighting.</p>
+              <ul>
+                <li>6 featured artists</li>
+                <li>Limited edition releases</li>
+                <li>Live Q&A this Friday</li>
+              </ul>
+            </article>
+
+            <article class="curation-card">
+              <div>
+                <p class="card-eyebrow">Residency</p>
+                <h3>Chronicles of Motion</h3>
+              </div>
+              <p>Experimental motion pieces that bend time, featuring award-winning animators.</p>
+              <ul>
+                <li>Virtual walk-through</li>
+                <li>Behind-the-scenes journal</li>
+                <li>Soundscapes included</li>
+              </ul>
+            </article>
+
+            <article class="curation-card">
+              <div>
+                <p class="card-eyebrow">Community pick</p>
+                <h3>People of the Future</h3>
+              </div>
+              <p>Portraiture series capturing human emotion with futuristic palettes.</p>
+              <ul>
+                <li>Open call winners</li>
+                <li>Interactive commentary</li>
+                <li>Augmented reality filters</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section stories" id="stories" aria-label="stories">
+        <div class="container stories-grid">
+          <div class="stories-content">
+            <p class="section-subtitle">Artist stories</p>
+            <h2 class="h2 section-title">A home for bold voices</h2>
             <p class="section-text">
-            Artovex is a modern virtual art space designed for artists and art lovers. It lets anyone explore, admire, and soon—upload their own creations to share with the world.
-            <br><br>
-            <b>A New Era of Creativity</b><br>
-            Artovex brings a digital gallery experience that feels fresh, inspiring, and accessible from anywhere.
-          </p>
+              Artovex is a modern virtual art space designed for artists and art lovers. It lets anyone explore,
+              admire, and soon—upload their own creations to share with the world. Our curators collaborate with creators
+              to produce immersive digital experiences that travel beyond the screen.
+            </p>
+            <div class="quote-card">
+              <p>“The themed drops and storytelling tools gave our collective a new way to launch narratives. This is the future
+                of virtual galleries.”</p>
+              <span>— Lin Torres, Art director at LightShift Studio</span>
+            </div>
+          </div>
 
+          <div class="stories-panel">
+            <article>
+              <h3>Creator Labs</h3>
+              <p>Monthly sprints pairing visual artists, musicians, and writers to craft synesthetic pieces.</p>
+            </article>
+            <article>
+              <h3>Collector Lounge</h3>
+              <p>Private sessions for patrons featuring artist AMAs, VR walkthroughs, and portfolio previews.</p>
+            </article>
+            <article>
+              <h3>Learning Vault</h3>
+              <p>Live workshops on lighting, color mastery, and storytelling inside the Artovex ecosystem.</p>
+            </article>
+          </div>
+        </div>
+      </section>
 
-            <a href="#" class="btn btn-primary">Learn More</a>
+      <!-- Programs section removed per request -->
+
+      <section class="section contact" id="contact" aria-label="contact">
+        <div class="container contact-grid">
+          <div>
+            <p class="section-subtitle">Stay in the loop</p>
+            <h2 class="h2 section-title">Join the next opening</h2>
+            <p class="section-text">
+              Receive curated drops, artist interviews, and residency invites right in your inbox.
+            </p>
+            <form class="contact-form">
+              <input type="email" name="newsletter" placeholder="you@email.com" required>
+              <button type="submit" class="btn btn-primary">Notify me</button>
+            </form>
+          </div>
+          <div class="contact-card">
+            <p class="card-eyebrow">Talk to us</p>
+            <h3>Host a takeover</h3>
+            <p>Planning a digital exhibition or branded art moment? The Artovex team can help you deliver.</p>
+            <ul>
+              <li>Concierge curation</li>
+              <li>Interactive microsites</li>
+              <li>Live streaming support</li>
+            </ul>
+            <a href="mailto:hello@artovex.com" class="btn btn-secondary">hello@artovex.com</a>
           </div>
         </div>
       </section>
@@ -172,6 +294,17 @@
   <a href="#top" class="back-top-btn" aria-label="back to top" data-back-top-btn>
     <ion-icon name="caret-up-sharp" aria-hidden="true"></ion-icon>
   </a>
+
+  <!-- Lightbox -->
+  <section class="lightbox" aria-hidden="true" data-lightbox>
+    <button class="lightbox__close" aria-label="close preview" data-lightbox-close>
+      <ion-icon name="close-outline"></ion-icon>
+    </button>
+    <figure class="lightbox__figure">
+      <img src="" alt="" data-lightbox-img>
+      <figcaption data-lightbox-caption></figcaption>
+    </figure>
+  </section>
 
   <!-- 
     - Custom JS Likink: This script tag links to a custom JavaScript file for the webpage.
